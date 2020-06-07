@@ -116,8 +116,6 @@ const CreatePoint = () => {
         else {
             setSelectedItems([...selectedItems, id])
         }
-
-
     }
 
     return (
