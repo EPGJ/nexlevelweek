@@ -19,7 +19,10 @@ interface Point {
   image: string;
   latitude: number;
   longitude: number;
-
+}
+interface Params {
+  uf: string,
+  city: string;
 }
 
 const Points = () => {
@@ -29,18 +32,26 @@ const Points = () => {
   const [selectedItems, setSelectedItems] = useState<number[]>([])
   const [initialPosition, setInitialPosition] = useState<[number, number]>([0, 0])
 
+
+  const route = useRoute();
+  const routeParams = route.params as Params;
+
+
   useEffect(() => {
-    getItems();
     getPoints();
     loadPosition();
   }, [])
+  useEffect(() => {
+    getItems();
+  }, [selectedItems])
+
 
   function getPoints() {
     api.get("points", {
       params: {
-        city: "Cariacica",
-        uf: "ES",
-        items: [4]
+        city: routeParams.city,
+        uf: routeParams.uf,
+        items: selectedItems
       }
     }).then(response => {
       setPoints(response.data)
